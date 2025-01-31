@@ -1,3 +1,26 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # tasks file for ssh
+
+
+- name: Ensure the user exists
+  ansible.builtin.user:
+    name: "{{ ssh_user }}"
+    state: present
+    create_home: yes
+
+- name: Ensure .ssh directory exists
+  ansible.builtin.file:
+    path: "/home/{{ ssh_user }}/.ssh"
+    state: directory
+    owner: "{{ ssh_user }}"
+    group: "{{ ssh_user }}"
+    mode: '0700'
+
+- name: Add the given public key to authorized_keys
+  ansible.builtin.copy:
+    src: "id_rsa.pub"
+    dest: "/home/{{ ssh_user }}/.ssh/authorized_keys"
+    owner: "{{ ssh_user }}"
+    group: "{{ ssh_user }}"
+    mode: '0600'
