@@ -3,28 +3,40 @@
 # tasks file for nginx
 
 - name: "Install Nginx to version {{ nginx_version }}"
-  ansible.builtin.apt:
-    name: "nginx"
+  ansible.builtin.package:
+    name: nginx
     state: "present"
 
+- name: Ensure Nginx is running and enabled on boot
+  ansible.builtin.service:
+    name: nginx
+    state: started
+    enabled: yes
+
 - name: Copy the Nginx configuration file to the host
-  template:
+  ansible.builtin.template:    
     src: templates/nginx.conf.j2
-    dest: /etc/nginx/sites-available/default
-
-- name: Create link to the new config to enable it
-  file:
-    dest: /etc/nginx/sites-enabled/default
-    src: /etc/nginx/sites-available/default
-    state: link
-
-- name: Create Nginx directory
-  ansible.builtin.file:
-    path: "{{ nginx_custom_directory }}"
-    state: directory
+    dest: /etc/nginx/nginx.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Restart Nginx Service
 
 - name: Copy index.html to the Nginx directory
   copy:
     src: files/index.html
     dest: "{{ nginx_custom_directory }}/index.html"
   notify: Restart the Nginx service
+
+# - name: Create link to the new config to enable it
+#   file:
+#     dest: /etc/nginx/sites-enabled/default
+#     src: /etc/nginx/sites-available/default
+#     state: link
+
+# - name: Create Nginx directory
+#   ansible.builtin.file:
+#     path: "{{ nginx_custom_directory }}"
+#     state: directory
+
+

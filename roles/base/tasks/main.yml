@@ -1,8 +1,41 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # tasks file for base
-- name: Update and upgrade apt
+
+- name: Update apt repo and cache on all Debian/Ubuntu boxes
   ansible.builtin.apt:
-    update_cache: yes
-    cache_valid_time: 300
-    upgrade: yes
+    update_cache: yes 
+    force_apt_get: yes 
+    ache_valid_time: 3600
+    install_recommends: yes
+
+- name: Upgrade all packages on servers
+  ansible.builtin.apt:
+    upgrade: dist 
+    force_apt_get: yes
+    only_upgrade: true
+    state: latest
+
+- name: Install fail2ban
+  ansible.builtin.package:
+    name: fail2ban      
+    state: present
+
+- name: 
+  ansible.builtin.service:
+    name: fail2ban
+    state: started
+    enabled: yes
+
+- name: Install utilities
+  ansible.builtin.package:
+    name:
+      - curl
+      - wget
+      - vim
+      - htop
+    state: present 
+    
+ 
+
+    
