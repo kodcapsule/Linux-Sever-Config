@@ -6,7 +6,7 @@
   ansible.builtin.apt:
     update_cache: yes 
     force_apt_get: yes 
-    ache_valid_time: 3600
+    cache_valid_time: 3600
     install_recommends: yes
 
 - name: Upgrade all packages on servers
@@ -21,7 +21,7 @@
     name: fail2ban      
     state: present
 
-- name: 
+- name: start fail2ban service
   ansible.builtin.service:
     name: fail2ban
     state: started

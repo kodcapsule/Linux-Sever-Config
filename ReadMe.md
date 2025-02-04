@@ -57,7 +57,7 @@ change directory into Linux-Sever-Config
 ```
 
 
-2. Update  the Inventory File: Update  the target host in  the  inventory.ini file  with your server details:
+2. Update  the Inventory File: Update  the target hosts in  the  inventory.ini file  with your server details:
 
 ```bash    
    [server]

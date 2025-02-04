@@ -19,7 +19,7 @@
 
 - name: Add the given public key to authorized_keys
   ansible.builtin.copy:
-    src: "id_rsa.pub"
+    src: "id_ed25519.pub"
     dest: "/home/{{ ssh_user }}/.ssh/authorized_keys"
     owner: "{{ ssh_user }}"
     group: "{{ ssh_user }}"

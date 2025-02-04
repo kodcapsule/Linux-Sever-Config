@@ -2,11 +2,8 @@
 - name: configure a Linux Server
   hosts: all
   become: yes
-  tasks:
-    - name: crate a text file
-      ansible.builtin.file:
-        path: /home/ubuntu/test.txt
-        state: touch
-        mode: '0644'
+  roles:
+    - base
+    - ssh
 
 ...
