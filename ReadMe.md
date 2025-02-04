@@ -22,27 +22,59 @@ Before you begin, make sure you have  the following  setup:
 
 
 ## Table of Contents
-[1. Project Structure](#1-project-structure)
-[2. Project Setup](#2-project-setup)
-[3. Roles](#3-roles)
-[4. Playbook](#4-playbook)
-[5. Conclusion](#5-conclusion)
+- [1. Project Structure](#1-project-structure)
+- [2. Project Setup](#2-project-setup)
+- [3. Roles](#3-roles)
+- [4. Playbook](#4-playbook)
+- [5. Conclusion](#5-conclusion)
 
 
 
 ## 1. Project Structure
-Describe the overall organization of the Ansible project, including directories and files.
+
+```bash
+        Linux-Sever-Config/
+            ├── roles
+            ├── .gitignore
+            ├── inventory.ini
+            ├── Readme.md
+            ├── setup.yml
+            └── website.tar.giz
+```
 
 
 
 ## 2. Project Setup
 Steps to set up the project, including dependencies and installation.
+1. Clone the repository:
+```bash
+    git clone https://github.com/kodcapsule/Linux-Sever-Config
+```
+change directory into Linux-Sever-Config
 
+```bash    
+    git Linux-Sever-Config
+```
+
+
+2. Update  the Inventory File: Update  the target host in  the  inventory.ini file  with your server details:
+
+```bash    
+   [server]
+   192.168.1.3 ansible_user=ubuntu
+```
+3. Create  the Tarball: Create and place your website.tar.gz file in the root of this project or you can specify its location in the playbook.
+
+4. Setup  SSH Connection: Make sure your SSH key is properly set up for Ansible to connect to the target machine.
 
 
 ## 3. Roles
-Detailed information about different Ansible roles used in the project.
-
+This section of the project contains all the roles that are used in this project. There are four roles in all which are:
+1**1. base:** The base role  perform some basic server configuartions including 
+    - 1. installs utilities like vim, git,curl,wget,vim,htop
+    - 2. Updates system packages.
+    - 3. Installs and starts Fail2ban
+    
 
 
 ## 4. Playbook
