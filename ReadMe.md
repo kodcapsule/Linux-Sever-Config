@@ -70,17 +70,33 @@ change directory into Linux-Sever-Config
 
 ## 3. Roles
 This section of the project contains all the roles that are used in this project. There are four roles in all which are:
-1**1. base:** The base role  perform some basic server configuartions including 
-    - 1. installs utilities like vim, git,curl,wget,vim,htop
-    - 2. Updates system packages.
-    - 3. Installs and starts Fail2ban
-    
+**1. base:** The base role  perform some basic server configuartions including 
+- 1. installs utilities like vim, git,curl,wget,vim,htop
+- 2. Updates system packages.
+- 3. Installs and starts Fail2ban
+
+
+**2. nginx:** Installs and configures nginx
+- 1. Installs a specific version of Nginx (default version 1.18.0-0ubuntu1.3)
+- 2. Ensures that  Nginx is running and enabled on boot
+- 3. Copy the Nginx configuration file and other files  to the host
+
+
+**3. ssh:** adds the given public key to the server
+- 1. Ensures the ssh user exists in the host
+- 2. Ensures that the  .ssh directory exists in the hosts
+- 3. Copies the given public key to authorized_keys in the hosts
+
+**4. app:** uploads the given tarball of a static HTML website to the server and unzips it.
+- 1. Creates a  target directory 
+- 2. Uploads website tarball to the directory and extracts website tarball
+- 3. Deploy Nginx configuration and enable Nginx site
 
 
 ## 4. Playbook
-Explanation of the playbook(s), including example usage.
+The playbook is uses all the executes all the roles on target servers  
 
 
 
 ## 5. Conclusion
-Final thoughts, best practices, and any additional notes.
+
