@@ -4,7 +4,7 @@
 
 - name: "Install Nginx to version {{ nginx_version }}"
   ansible.builtin.package:
-    name: nginx
+    name: nginx    
     state: "present"
 
 - name: Ensure Nginx is running and enabled on boot
@@ -14,29 +14,16 @@
     enabled: yes
 
 - name: Copy the Nginx configuration file to the host
-  ansible.builtin.template:    
-    src: templates/nginx.conf.j2
+  ansible.builtin.file:    
+    src: nginx.conf
     dest: /etc/nginx/nginx.conf
-    owner: root
-    group: root
-    mode: '0644'
+    # owner: root
+    # group: root
+    # mode: '0644'
   notify: Restart Nginx Service
 
-- name: Copy index.html to the Nginx directory
-  copy:
-    src: files/index.html
-    dest: "{{ nginx_custom_directory }}/index.html"
-  notify: Restart the Nginx service
 
-# - name: Create link to the new config to enable it
-#   file:
-#     dest: /etc/nginx/sites-enabled/default
-#     src: /etc/nginx/sites-available/default
-#     state: link
 
-# - name: Create Nginx directory
-#   ansible.builtin.file:
-#     path: "{{ nginx_custom_directory }}"
-#     state: directory
+
 
 
