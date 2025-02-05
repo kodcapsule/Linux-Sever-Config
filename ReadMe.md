@@ -1,6 +1,6 @@
 
 # Linux Server  Configuration 
-This project demonstrates the  use of **Ansible** to manage  the configuration  of  a Linux server. The playbook uses four roles to automate the the updates of the server, installation of  some essential utilities,  installs and confiures **Nginx** and uploads a static HTML website and adds a given public key to the server.   
+This project demonstrates the  use of **Ansible** to manage  the configuration  of  a Linux server. The playbook uses four roles to automate the the updates of the server, installation of  some essential utilities,  installs and confiures **Nginx** and uploads a static HTML website and adds a given public key to the server.  The project is found at  https://roadmap.sh/projects/configuration-management as part of DevOps Roadmap.
 
 
 
