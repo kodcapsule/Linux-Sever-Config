@@ -39,4 +39,5 @@
     src: /etc/nginx/sites-available/static-site
     dest: /etc/nginx/sites-enabled/static-site
     state: link
-  notify: Restart Nginx
+  notify: 
+    - Restart Nginx
