@@ -1,11 +1,16 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # tasks file for nginx
-
-- name: "Install Nginx to version {{ nginx_version }}"
-  ansible.builtin.package:
-    name: nginx    
-    state: "present"
+- name: Ensure the correct version of Nginx is installed
+  block:
+    - name: "Install Nginx to version {{ nginx_version }}"
+      ansible.builtin.package:
+        name: nginx    
+        state: "present"
+  rescue:
+    - name: "ERROR: Unable to install Nginx"
+      ansible.builtin.debug:
+        msg: "Ngix Version {{nginx_syntax_check.stdout}} was not installed. Kindly check for the right version to install"
 
 - name: Ensure Nginx is running and enabled on boot
   ansible.builtin.service:
@@ -13,12 +18,37 @@
     state: started
     enabled: yes
 
-- name: Copy the Nginx configuration file to the host
-  ansible.builtin.template:    
-    src: nginx.conf.j2
-    dest: /etc/nginx/nginx.conf     
-  notify: 
-    - Restart Nginx Service
+- name: Copy Nginx config files
+  block:
+  - name: Copy the Nginx configuration file to the host
+    ansible.builtin.template:    
+      src: nginx.conf.j2
+      dest: /etc/nginx/nginx.conf     
+    notify: 
+      - Restart Nginx Service
+  rescue:
+    - name: Log fail if copying Nginx configuration files fails
+      ansible.builtin.debug:
+        msg: "ERROR: Fail to copy Nginx Configuration file"
+    - name:
+      ansible.builtin.copy:
+        src: /etc/nginx/nginx.conf.bak
+        dest: /etc/nginx/nginx.conf
+      when: ansible.builtin.stat.path.exist("//etc/nginx/nginx.conf.bak")
+  always:
+    - name: Ensure Nginx config is valid
+      ansible.builtin.command: 
+      cmd: nginx -t
+      register: nginx_syntax_check
+      change_when: false  
+      ignore_errors: yes
+
+    - name: Log Nginx config test
+      ansible.builtin.debug:
+        msg: "Ngix Syntax check:{{nginx_syntax_check.stdout}}"
+        
+
+
 
 
 

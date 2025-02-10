@@ -18,7 +18,7 @@
     ansible.builtin.yum:
       name: "*"
       state: latest
-    when: ansible_os_family == ["RedHat"]
+    when: ansible_os_family == "RedHat"
 
 
   - name: Upgrade all packages on Debian/Ubuntu servers
@@ -35,17 +35,22 @@
 
 
   # ================== INSTALL fail2ban ===================================
+- name: update pagages 
+  block:
+    - name: Install fail2ban
+      ansible.builtin.package:
+        name: fail2ban      
+        state: present
 
-- name: Install fail2ban
-  ansible.builtin.package:
-    name: fail2ban      
-    state: present
-
-- name: start fail2ban service
-  ansible.builtin.service:
-    name: fail2ban
-    state: started
-    enabled: yes
+    - name: start fail2ban service
+      ansible.builtin.service:
+        name: fail2ban
+        state: started
+        enabled: yes
+  rescue:
+   -  name:
+      ansible.builtin.debug:
+        msg: " An error occured while installing fail2ban"
 
 
 
