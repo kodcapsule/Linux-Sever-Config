@@ -2,19 +2,39 @@
 ---
 # tasks file for base
 
-- name: Update apt repo and cache on all Debian/Ubuntu boxes
-  ansible.builtin.apt:
-    update_cache: yes 
-    force_apt_get: yes 
-    cache_valid_time: 3600
-    install_recommends: yes
 
-- name: Upgrade all packages on servers
-  ansible.builtin.apt:
-    upgrade: dist 
-    force_apt_get: yes
-    only_upgrade: true
-    state: latest
+# ================== UPDATE LINUX SERVERS ===================================
+- name: update pagages 
+  block:    
+  - name: Update apt repo and cache on all Debian/Ubuntu Servers
+    ansible.builtin.apt:
+      update_cache: yes 
+      force_apt_get: yes 
+      cache_valid_time: 3600
+      install_recommends: yes
+    when: ansible_os_family == "Debian"
+
+  - name: Update yum repo and cache on all RedHat  Servers
+    ansible.builtin.yum:
+      name: "*"
+      state: latest
+    when: ansible_os_family == ["RedHat"]
+
+
+  - name: Upgrade all packages on Debian/Ubuntu servers
+    ansible.builtin.apt:
+      upgrade: dist     
+      only_upgrade: true
+      state: latest
+    when: ansible_os_family == ["Debian","Ubuntu"]
+  rescue:
+    - name:
+      ansible.builtin.debug:
+        msg: " An error occured while updating packages"
+  # always:
+
+
+  # ================== INSTALL fail2ban ===================================
 
 - name: Install fail2ban
   ansible.builtin.package:
@@ -27,6 +47,9 @@
     state: started
     enabled: yes
 
+
+
+ # ================== INSTALL utilities ===================================
 - name: Install utilities
   ansible.builtin.package:
     name:
