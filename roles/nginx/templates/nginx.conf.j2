@@ -1,6 +1,21 @@
-server {
+worker_processes 1;
+
+events {
+	worker_connections 1024;
+	# multi_accept on;
+}
+
+http {
+
+        include /etc/nginx/conf.d/*.conf;
+	include /etc/nginx/sites-enabled/*;
+	include mime.types;
+
+
+        server_name localhost;
+        server {
         listen 80;
-        listen [::]:80;
+        
         root {{ nginx_custom_directory }};
         index index.html;
         location / {
@@ -8,3 +23,6 @@ server {
         }
 
 }
+
+
+

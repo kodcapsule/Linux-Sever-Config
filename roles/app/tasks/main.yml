@@ -24,20 +24,21 @@
     owner: www-data
     group: www-data
     mode: '0755'
-
-- name: Deploy Nginx configuration
-  ansible.builtin.template:
-    src: nginx.conf.j2
-    dest: /etc/nginx/sites-available/static-site
-    owner: root
-    group: root
-    mode: '0644'
   notify: Restart Nginx
 
-- name: Enable Nginx site
-  ansible.builtin.file:
-    src: /etc/nginx/sites-available/static-site
-    dest: /etc/nginx/sites-enabled/static-site
-    state: link
-  notify: 
-    - Restart Nginx
+# - name: Deploy Nginx configuration
+#   ansible.builtin.template:
+#     src: nginx.conf.j2
+#     dest: /etc/nginx/sites-available/static-site
+#     owner: root
+#     group: root
+#     mode: '0644'
+#   notify: Restart Nginx
+
+# - name: Enable Nginx site
+#   ansible.builtin.file:
+#     src: /etc/nginx/sites-available/static-site
+#     dest: /etc/nginx/sites-enabled/static-site
+#     state: link
+#   notify: 
+#     - Restart Nginx

@@ -1,6 +1,6 @@
 #SPDX-License-Identifier: MIT-0
 ---
-# tasks file for nginx
+
 - name: Ensure the correct version of Nginx is installed
   block:
     - name: "Install Nginx to version {{ nginx_version }}"
@@ -27,14 +27,14 @@
     notify: 
       - Restart Nginx Service
   rescue:
-    - name: Log fail if copying Nginx configuration files fails
+    - name: Copying Nginx configuration files fail
       ansible.builtin.debug:
         msg: "ERROR: Fail to copy Nginx Configuration file"
     - name:
       ansible.builtin.copy:
         src: /etc/nginx/nginx.conf.bak
         dest: /etc/nginx/nginx.conf
-      when: ansible.builtin.stat.path.exist("//etc/nginx/nginx.conf.bak")
+      when: ansible.builtin.stat.path.exist("/etc/nginx/nginx.conf.bak")
   always:
     - name: Ensure Nginx config is valid
       ansible.builtin.command: 
