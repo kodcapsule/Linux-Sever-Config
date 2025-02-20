@@ -4,8 +4,8 @@
   become: yes
   roles:
     - base
-    # - ssh
+    - ssh
     - nginx
-    # - app
+    - app
 
 ...

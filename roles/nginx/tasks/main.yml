@@ -11,8 +11,12 @@
     - name: "ERROR: Unable to install Nginx"
       ansible.builtin.debug:
         msg: "Ngix Version {{nginx_syntax_check.stdout}} was not installed. Kindly check for the right version to install"
-
-- name: Ensure Nginx is running and enabled on boot
+    - name: installing latest version of Nginx
+      ansible.builtin.package:
+        name: nginx    
+        state: "present"
+        
+- name: Enable Nginx on system boot
   ansible.builtin.service:
     name: nginx
     state: started
