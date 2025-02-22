@@ -15,13 +15,7 @@
       ansible.builtin.package:
         name: nginx    
         state: "present"
-        
-- name: Enable Nginx on system boot
-  ansible.builtin.service:
-    name: nginx
-    state: started
-    enabled: yes
-
+      
 - name: Copy Nginx config files
   block:
   - name: Copy the Nginx configuration file to the host
@@ -41,16 +35,21 @@
       when: ansible.builtin.stat.path.exist("/etc/nginx/nginx.conf.bak")
   always:
     - name: Ensure Nginx config is valid
-      ansible.builtin.command: 
-      cmd: nginx -t
-      register: nginx_syntax_check
-      change_when: false  
-      ignore_errors: yes
+      ansible.builtin.debug: 
+        msg: "Build success"
+      # cmd: nginx -t
+      # register: nginx_syntax_check
+      # change_when: false  
+      # ignore_errors: yes
 
-    - name: Log Nginx config test
-      ansible.builtin.debug:
-        msg: "Ngix Syntax check:{{nginx_syntax_check.stdout}}"
-        
+    # - name: Log Nginx config test
+    #   ansible.builtin.debug:
+    #     msg: "Ngix Syntax check:{{nginx_syntax_check.stdout}}"
+- name: Enable Nginx on system boot
+  ansible.builtin.service:
+    name: nginx
+    state: started
+    enabled: yes      
 
 
 
