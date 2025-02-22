@@ -2,4 +2,4 @@
 ---
 # defaults file for app
 
-web_root: "usr/share/nginx/html"
+web_root: "/usr/share/nginx/html"

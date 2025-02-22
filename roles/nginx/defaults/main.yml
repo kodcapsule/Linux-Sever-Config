@@ -3,4 +3,4 @@
 # defaults file for nginx
 
 nginx_version: 1.18.0-0ubuntu1.3
-nginx_custom_directory: /usr/share/nginx/html
+nginx_custom_directory: /usr/share/nginx/html/website

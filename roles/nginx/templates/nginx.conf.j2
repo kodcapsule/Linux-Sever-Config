@@ -17,7 +17,7 @@ http {
         server {
                 server_name localhost;
                 listen 80;        
-                root {{ nginx_custom_directory }};
+                root /usr/share/nginx/html;
                 index index.html;
 
                 location / {
